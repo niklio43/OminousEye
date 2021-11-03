@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 public class EnemyMovement : MonoBehaviour
 {
     Animator anim;
@@ -9,8 +8,10 @@ public class EnemyMovement : MonoBehaviour
     float horizontal;
     float vertical;
 
+    public float runSpeed = 10.0f;
+
     private bool isJumping;
-    private bool isEnemy;
+    public bool isEnemy;
 
     private float jumpForce;
     private float moveSpeed;
@@ -18,29 +19,19 @@ public class EnemyMovement : MonoBehaviour
     private float moveVertical;
 
     private bool lbMovement;
-    private bool lbJump;
-
-    private bool lbExplode;
-
-    private Vector3 pos;
-
-    public GameObject PlayerPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        lbExplode = false;
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         lbMovement = false;
-        lbJump = false;
         isEnemy = false;
         isJumping = false;
         moveSpeed = 3f;
         jumpForce = 40f;
         this.gameObject.GetComponent<EnemyMovement>().enabled = false;
 
-        pos = transform.position;
     }
 
     void Update()
@@ -49,19 +40,7 @@ public class EnemyMovement : MonoBehaviour
         moveVertical = vertical = Input.GetAxisRaw("Vertical");
 
         lbMovement = moveHorizontal != 0;
-        lbJump = moveVertical != 0;
         anim.SetBool("lbMovement", lbMovement);
-        anim.SetBool("lbJump", lbJump);
-        anim.SetBool("lbExplode", lbExplode);
-        pos = this.gameObject.transform.position;
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            lbExplode = true;
-            isEnemy = false;
-            Destroy(this.gameObject); //not working with cooldown for some reason
-            Instantiate(PlayerPrefab, pos, Quaternion.identity);
-        }
-
     }
 
     private void FixedUpdate()
@@ -105,5 +84,4 @@ public class EnemyMovement : MonoBehaviour
             isJumping = true;
         }
     }
-
 }

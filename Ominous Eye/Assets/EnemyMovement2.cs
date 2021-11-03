@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement2 : MonoBehaviour
 {
     Animator anim;
 
@@ -26,17 +26,11 @@ public class EnemyMovement : MonoBehaviour
 
     public GameObject PlayerPrefab;
 
-    private GameObject Player;
-
-    private Transform aimTransform;
-    private Camera theCam;
-
-    public GameObject gun;
-    public GameObject bullet;
-    public float bulletSpeed = 10f;
-    public Transform firePoint;
-    public float angle;
     
+
+
+    
+
 
 
     // Start is called before the first frame update
@@ -51,13 +45,13 @@ public class EnemyMovement : MonoBehaviour
         isJumping = false;
         moveSpeed = 3f;
         jumpForce = 40f;
-        this.gameObject.GetComponent<EnemyMovement>().enabled = false;
+        this.gameObject.GetComponent<EnemyMovement2>().enabled = false;
 
-        
+
 
         pos = transform.position;
 
-       
+
     }
 
     void Update()
@@ -82,8 +76,7 @@ public class EnemyMovement : MonoBehaviour
         if (isEnemy)
         {
 
-            HandleAiming();
-            handleShooting();
+           
         }
 
     }
@@ -97,12 +90,12 @@ public class EnemyMovement : MonoBehaviour
         if (moveHorizontal > 0)
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
-            
+
         }
         if (moveHorizontal < 0)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
-            
+
         }
 
         if (!isJumping && isEnemy)
@@ -116,7 +109,7 @@ public class EnemyMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;
-            this.gameObject.GetComponent<EnemyMovement>().enabled = true;
+            this.gameObject.GetComponent<EnemyMovement2>().enabled = true;
         }
         if (collision.gameObject.tag == "Floor")
         {
@@ -132,42 +125,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void HandleAiming()
-    {
-        Vector3 mouse = Input.mousePosition;
-
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
-
-        Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
-
-        angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-        gun.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        Vector3 localScale = Vector3.one;
-
-        if (angle > 90 || angle < -90)
-        {
-            localScale.y = -1f;
-        }
-
-        else
-        {
-            localScale.y = +1f;
-        }
-
-        gun.transform.localScale = localScale;
-    }
-
-    void handleShooting()
-    {
-        if(Input.GetMouseButton(0))
-        {
-            GameObject bulletClone = Instantiate(bullet);
-            bulletClone.transform.position = firePoint.position;
-            bulletClone.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-            bulletClone.GetComponent<Rigidbody2D>().velocity = firePoint.right * bulletSpeed;
-        }
-    }
+   
 
 }

@@ -114,6 +114,10 @@ public class ScientistMovement : MonoBehaviour
         {
             Healthbar2.TakeDamage(1);
         }
+        if (collision.gameObject.tag == "EnemyBullet" && this.gameObject.tag == "Possessed")
+        {
+            Healthbar2.TakeDamage(1);
+        }
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;

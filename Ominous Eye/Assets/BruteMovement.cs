@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-public class EnemyMovement : MonoBehaviour
+public class BruteMovement : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D body;
@@ -12,12 +12,15 @@ public class EnemyMovement : MonoBehaviour
     public bool isEnemy;
     private bool lbMovement;
     private bool lbJump;
-    private bool lbExplode;
+    private bool lbHelmet;
+    private bool lbIdleHelmet;
 
     private float jumpForce;
     private float moveSpeed;
     private float moveHorizontal;
     private float moveVertical;
+
+    private bool lbExplode;
 
     private Vector3 pos;
 
@@ -27,11 +30,8 @@ public class EnemyMovement : MonoBehaviour
     public GameObject bullet;
     public float bulletSpeed = 10f;
     public Transform firePoint;
-    public float angle;
-    
+    private float angle;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -40,13 +40,15 @@ public class EnemyMovement : MonoBehaviour
         lbExplode = false;
         lbMovement = false;
         lbJump = false;
+        lbHelmet = false;
+        lbIdleHelmet = false;
         isEnemy = false;
         isJumping = false;
 
-        moveSpeed = 3f;
-        jumpForce = 40f;
+        moveSpeed = 1.5f;
+        jumpForce = 20f;
 
-        this.gameObject.GetComponent<EnemyMovement>().enabled = false;
+        this.gameObject.GetComponent<BruteMovement>().enabled = false;
 
         pos = transform.position;
     }
@@ -62,6 +64,8 @@ public class EnemyMovement : MonoBehaviour
         anim.SetBool("lbMovement", lbMovement);
         anim.SetBool("lbJump", lbJump);
         anim.SetBool("lbExplode", lbExplode);
+        anim.SetBool("lbHelmet", lbHelmet);
+        anim.SetBool("lbIdleHelmet", lbIdleHelmet);
 
         pos = this.gameObject.transform.position;
 
@@ -75,9 +79,9 @@ public class EnemyMovement : MonoBehaviour
 
         if (isEnemy)
         {
-
             HandleAiming();
             HandleShooting();
+            HandleHelmet();
         }
 
     }
@@ -110,7 +114,7 @@ public class EnemyMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;
-            this.gameObject.GetComponent<EnemyMovement>().enabled = true;
+            this.gameObject.GetComponent<BruteMovement>().enabled = true;
         }
 
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Enemy")
@@ -132,7 +136,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
@@ -156,13 +160,21 @@ public class EnemyMovement : MonoBehaviour
 
     void HandleShooting()
     {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             GameObject bulletClone = Instantiate(bullet);
             bulletClone.transform.position = firePoint.position;
             bulletClone.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
             bulletClone.GetComponent<Rigidbody2D>().velocity = firePoint.right * bulletSpeed;
+        }
+    }
+
+    void HandleHelmet()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            lbHelmet = true;
+            lbIdleHelmet = true;
         }
     }
 

@@ -14,6 +14,8 @@ public class HealthBarOnEnemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+
+
     }
 
     // Update is called once per frame
@@ -36,4 +38,6 @@ public class HealthBarOnEnemy : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
+
 }
+

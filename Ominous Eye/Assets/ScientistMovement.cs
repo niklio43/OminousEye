@@ -28,7 +28,9 @@ public class ScientistMovement : MonoBehaviour
     public float bulletSpeed = 10f;
     public Transform firePoint;
     public float angle;
-    
+    public HealthBarOnEnemy Healthbar2;
+
+
 
 
     // Start is called before the first frame update
@@ -47,6 +49,7 @@ public class ScientistMovement : MonoBehaviour
         jumpForce = 40f;
 
         this.gameObject.GetComponent<ScientistMovement>().enabled = false;
+        Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
     }
@@ -107,6 +110,10 @@ public class ScientistMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
+        {
+            Healthbar2.TakeDamage(1);
+        }
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;
@@ -170,5 +177,5 @@ public class ScientistMovement : MonoBehaviour
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
-
+    
 }

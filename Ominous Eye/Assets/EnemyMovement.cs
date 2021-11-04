@@ -83,7 +83,7 @@ public class EnemyMovement : MonoBehaviour
         {
 
             HandleAiming();
-            handleShooting();
+            HandleShooting();
         }
 
     }
@@ -136,7 +136,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
@@ -158,7 +158,7 @@ public class EnemyMovement : MonoBehaviour
         gun.transform.localScale = localScale;
     }
 
-    void handleShooting()
+    void HandleShooting()
     {
         if(Input.GetMouseButton(0))
         {

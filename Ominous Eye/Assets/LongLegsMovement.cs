@@ -107,6 +107,13 @@ public class LongLegsMovement : MonoBehaviour
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
             Healthbar2.TakeDamage(1);
+            if (Healthbar2.TakeDamage(1) == 0)
+            {
+
+                anim.SetBool("lbExplode", true);
+                Destroy(this.gameObject, 2);
+            }
+
         }
         if (collision.gameObject.tag == "Player")
         {

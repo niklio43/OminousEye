@@ -13,6 +13,7 @@ public class ScientistMovement : MonoBehaviour
     private bool lbMovement;
     private bool lbJump;
     private bool lbExplode;
+    
 
     private float jumpForce;
     private float moveSpeed;
@@ -50,7 +51,7 @@ public class ScientistMovement : MonoBehaviour
 
         this.gameObject.GetComponent<ScientistMovement>().enabled = false;
         Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
-
+        
         pos = transform.position;
     }
 
@@ -71,17 +72,22 @@ public class ScientistMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !lbExplode)
         {
             lbExplode = true;
+            
+        }
+        if (lbExplode)
+        {
             isEnemy = false;
             Invoke("instantiate", 2);
             Destroy(this.gameObject, 2);
         }
-
         if (isEnemy)
         {
 
             HandleAiming();
             HandleShooting();
         }
+        
+        
 
     }
 
@@ -113,6 +119,14 @@ public class ScientistMovement : MonoBehaviour
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
             Healthbar2.TakeDamage(1);
+            if(Healthbar2.TakeDamage(1) == 0)
+            {
+                
+                anim.SetBool("lbExplode", true);
+                Destroy(this.gameObject, 2);
+            }
+
+
         }
         if (collision.gameObject.tag == "Player")
         {
@@ -177,5 +191,6 @@ public class ScientistMovement : MonoBehaviour
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
+    
     
 }

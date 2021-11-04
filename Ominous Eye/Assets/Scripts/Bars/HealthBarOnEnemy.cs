@@ -19,10 +19,15 @@ public class HealthBarOnEnemy : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public int TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        if (currentHealth >= 1)
+        {
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+        }
+
+        return currentHealth;
     }
 
 }

@@ -8,9 +8,8 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Floor")
         {
-            
             Destroy(gameObject);
         }
     }
@@ -19,7 +18,5 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject, 5);
     }
-
-
 
 }

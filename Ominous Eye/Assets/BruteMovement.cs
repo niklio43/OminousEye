@@ -20,6 +20,7 @@ public class BruteMovement : MonoBehaviour
     private float moveSpeed;
     private float moveHorizontal;
     private float moveVertical;
+    private bool Indestructible = false;
 
     private bool lbExplode;
 
@@ -102,7 +103,7 @@ public class BruteMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!lbExplode)
+        if (!lbExplode || !lbMelt)
         {
             if (moveHorizontal > 0f || moveHorizontal < 0f)
             {
@@ -125,12 +126,30 @@ public class BruteMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!Indestructible)
+        {
+            if (collision.gameObject.tag == "Barrel" && isEnemy)
+            {
+
+
+                lbMelt = true;
+                isEnemy = false;
+                Invoke("instantiate", 2);
+                Destroy(this.gameObject, 2);
+
+            }
+        }
+
+
+
         if (collision.gameObject.tag == "Barrel")
         {
-            lbMelt = true;
+
+
+            anim.SetBool("lbMelt", true);
             isEnemy = false;
-            Invoke("instantiate", 2);
             Destroy(this.gameObject, 2);
+
         }
 
 
@@ -172,7 +191,7 @@ public class BruteMovement : MonoBehaviour
 
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
@@ -215,7 +234,9 @@ public class BruteMovement : MonoBehaviour
         {
             lbHelmet = true;
             lbIdleHelmet = true;
+            Indestructible = true;
             Invoke("TakeOffHelmet", 5);
+            
         }
     }
 
@@ -227,6 +248,7 @@ public class BruteMovement : MonoBehaviour
    void TakeOffHelmet()
     {
         lbHelmet = false;
+        Indestructible = false;
     }
 
   

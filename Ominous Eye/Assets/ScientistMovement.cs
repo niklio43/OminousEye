@@ -13,6 +13,7 @@ public class ScientistMovement : MonoBehaviour
     private bool lbMovement;
     private bool lbJump;
     private bool lbExplode;
+    private bool lbMelt;
     
 
     private float jumpForce;
@@ -45,6 +46,7 @@ public class ScientistMovement : MonoBehaviour
         lbJump = false;
         isEnemy = false;
         isJumping = false;
+        lbMelt = false;
 
         moveSpeed = 3f;
         jumpForce = 40f;
@@ -66,6 +68,7 @@ public class ScientistMovement : MonoBehaviour
         anim.SetBool("lbMovement", lbMovement);
         anim.SetBool("lbJump", lbJump);
         anim.SetBool("lbExplode", lbExplode);
+        anim.SetBool("lbMelt", lbMelt);
 
         pos = this.gameObject.transform.position;
 
@@ -93,7 +96,7 @@ public class ScientistMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!lbExplode)
+        if (!lbExplode || !lbMelt)
         {
             if (moveHorizontal > 0f || moveHorizontal < 0f)
             {
@@ -116,7 +119,23 @@ public class ScientistMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
+
+        if (collision.gameObject.tag == "Barrel" && isEnemy)
+        {
+            lbMelt = true;
+            isEnemy = false;
+            Invoke("instantiate", 2);
+            Destroy(this.gameObject, 2);
+        }
+
+        if (collision.gameObject.tag == "Barrel")
+        {
+            anim.SetBool("lbMelt", true);
+            isEnemy = false;
+            Destroy(this.gameObject, 2);
+        }
+
+        if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed" && this.gameObject.tag != "Scientist")
         {
             Healthbar2.TakeDamage(1);
             if(Healthbar2.TakeDamage(1) == 0)

@@ -13,7 +13,6 @@ public class ButtonManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        Debug.Log("HEHEHEH");
 #else
         Application.Quit ();
 #endif

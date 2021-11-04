@@ -12,8 +12,4 @@ public class EyeCursor : MonoBehaviour
     {
         Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
     }
-    
-
-   
-    
 }

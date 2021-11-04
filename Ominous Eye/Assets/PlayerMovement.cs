@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             isEye = false;
-            collision.transform.gameObject.tag = "Player";
+            collision.transform.gameObject.tag = "Possessed";
             Destroy(gameObject);
         }
     }

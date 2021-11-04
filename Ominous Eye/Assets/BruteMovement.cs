@@ -59,7 +59,7 @@ public class BruteMovement : MonoBehaviour
         Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
-        
+
     }
 
     void Update()
@@ -92,10 +92,10 @@ public class BruteMovement : MonoBehaviour
             HandleAiming();
             HandleShooting();
             HandleHelmet();
-            
+
         }
 
-     
+
 
 
 
@@ -126,28 +126,18 @@ public class BruteMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Indestructible)
-        {
-            if (collision.gameObject.tag == "Barrel" && isEnemy)
-            {
-
-
-                lbMelt = true;
-                isEnemy = false;
-                Invoke("instantiate", 2);
-                Destroy(this.gameObject, 2);
-
-            }
-        }
 
 
 
-        if (collision.gameObject.tag == "Barrel")
+
+
+        if (collision.gameObject.tag == "Barrel" && !Indestructible)
         {
 
 
-            anim.SetBool("lbMelt", true);
+            lbMelt = true;
             isEnemy = false;
+            Invoke("instantiate", 2);
             Destroy(this.gameObject, 2);
 
         }
@@ -236,7 +226,7 @@ public class BruteMovement : MonoBehaviour
             lbIdleHelmet = true;
             Indestructible = true;
             Invoke("TakeOffHelmet", 5);
-            
+
         }
     }
 
@@ -245,11 +235,11 @@ public class BruteMovement : MonoBehaviour
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
 
-   void TakeOffHelmet()
+    void TakeOffHelmet()
     {
         lbHelmet = false;
         Indestructible = false;
     }
 
-  
+
 }

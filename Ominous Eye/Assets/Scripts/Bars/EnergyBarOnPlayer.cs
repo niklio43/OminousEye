@@ -17,22 +17,20 @@ public class EnergyBarOnPlayer : MonoBehaviour
     //Counter
 
     float timeElapsed = 100; //Count time down from 100 
-    float timeSpeed = 20;    //Acceleration
+    float timeSpeed = 10;    //Acceleration
     
-
     // Start is called before the first frame update
     void Start()
     {
         currentEnergy = maxEnergy;
         energyBar.SetMaxEnergy(maxEnergy);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.E))
+        //decrease energy
+        if (GameObject.FindGameObjectWithTag("Player") != null)
         {
             if (currentEnergy >= 0)
             { 
@@ -41,7 +39,9 @@ public class EnergyBarOnPlayer : MonoBehaviour
             energyBar.SetEnergy(currentEnergy);
             }
         }
-        if (Input.GetKey(KeyCode.I))
+
+        //increase energy
+        if (GameObject.FindGameObjectWithTag("Possessed") != null)
         {
             if (currentEnergy <= 100)
             {

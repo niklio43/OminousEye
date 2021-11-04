@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int health = 100;
     // Start is called before the first frame update
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            health--;
+        }
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Floor")
         {
             Destroy(gameObject);

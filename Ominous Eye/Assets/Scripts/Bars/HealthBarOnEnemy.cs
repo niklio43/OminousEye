@@ -14,21 +14,16 @@ public class HealthBarOnEnemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Debug.Log("Auuuuch that hurts, get this fkn ey out of me!");
-            TakeDamage(20);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Debug.Log("Auuuuch that hurts, get this fkn ey out of me!");
-            TakeDamage(-20);
-        }
+ 
+      TakeDamage(20);
+        
     }
 
     void TakeDamage(int damage)
@@ -36,4 +31,6 @@ public class HealthBarOnEnemy : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
+
 }
+

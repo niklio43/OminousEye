@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     float horizontal;
     float vertical;
 
-    private bool isEye;
+    public bool isEye;
 
     public float runSpeed = 10.0f;
 

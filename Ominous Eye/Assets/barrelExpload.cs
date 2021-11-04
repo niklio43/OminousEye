@@ -12,26 +12,17 @@ public class barrelExpload : MonoBehaviour
     [SerializeField] private int emitAmount2;
 
 
-
-    // Start is called before the first frame update
-    void Start()
+    void OnTriggerEnter2D(Collider2D collision)
     {
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("BABOOOM!");
+            if (collision.gameObject.tag == "Possessed")
+            {
             EmitParticles(emitAmount);
             EmitParticles(emitAmount2);
         }
-
+        
     }
-
-    void EmitParticles(int emitamount)
+        void EmitParticles(int emitamount)
     {
         particlesystem.Emit(emitAmount);
         particlesystem2.Emit(emitAmount2);

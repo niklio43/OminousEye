@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    Animator anim;
+    private bool lbOpen;
     // Start is called before the first frame update
     void Start()
     {
-        
+        lbOpen = false;
+        anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }
+    // Update is called once per frame
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if (collision.gameObject.tag == "Player")
+       if (collision.gameObject.tag == "Card")
        {
-            Debug.Log("Hello you ominous eye, I am not letting you in");
-       }
-
-        if (collision.gameObject.tag == "EnemyRogue")
-        {
-            Debug.Log("Oh hello dr swansson, did you see that stupid eye? Welcome in btw!");
+            anim.SetBool("lbOpen", true);
+            Destroy(this.gameObject, 1);
         }
 
     }

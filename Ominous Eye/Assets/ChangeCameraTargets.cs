@@ -38,6 +38,8 @@ public class ChangeCameraTargets : MonoBehaviour
 
             transform.position = temp;
         }
+
+        
         
 
 

@@ -22,8 +22,9 @@ public class LongLegsMovement : MonoBehaviour
     private Vector3 pos;
 
     public GameObject PlayerPrefab;
+    public HealthBarOnEnemy Healthbar2;
 
-
+    public float health;
 
 
 
@@ -43,8 +44,12 @@ public class LongLegsMovement : MonoBehaviour
         jumpForce = 60f;
 
         this.gameObject.GetComponent<LongLegsMovement>().enabled = false;
+        Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
+
+        health = 100;
+
     }
 
     void Update()
@@ -69,6 +74,7 @@ public class LongLegsMovement : MonoBehaviour
             Destroy(this.gameObject, 2);
         }
 
+       
 
 
     }
@@ -98,6 +104,10 @@ public class LongLegsMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
+        {
+            Healthbar2.TakeDamage(1);
+        }
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;
@@ -125,5 +135,10 @@ public class LongLegsMovement : MonoBehaviour
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
+
+    
+    
+
+    
 
 }

@@ -22,16 +22,16 @@ public class HealthBarOnEnemy : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             Debug.Log("Auuuuch that hurts, get this fkn ey out of me!");
-            TakeDamage(20);
+            TakeDamage(1);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             Debug.Log("Auuuuch that hurts, get this fkn ey out of me!");
-            TakeDamage(-20);
+            TakeDamage(1);
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);

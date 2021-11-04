@@ -8,6 +8,8 @@ TagManager:
   - Floor
   - Gun
   - Possessed
+  - Bullet
+  - Barrel
   layers:
   - Default
   - TransparentFX

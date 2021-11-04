@@ -14,6 +14,7 @@ public class BruteMovement : MonoBehaviour
     private bool lbJump;
     private bool lbHelmet;
     private bool lbIdleHelmet;
+    private bool lbMelt;
 
     private float jumpForce;
     private float moveSpeed;
@@ -31,6 +32,10 @@ public class BruteMovement : MonoBehaviour
     public float bulletSpeed = 10f;
     public Transform firePoint;
     private float angle;
+    public int health;
+    public HealthBarOnEnemy Healthbar2;
+
+
 
     void Start()
     {
@@ -44,13 +49,16 @@ public class BruteMovement : MonoBehaviour
         lbIdleHelmet = false;
         isEnemy = false;
         isJumping = false;
+        lbMelt = false;
 
         moveSpeed = 1.5f;
         jumpForce = 20f;
 
         this.gameObject.GetComponent<BruteMovement>().enabled = false;
+        Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
+        
     }
 
     void Update()
@@ -66,6 +74,7 @@ public class BruteMovement : MonoBehaviour
         anim.SetBool("lbExplode", lbExplode);
         anim.SetBool("lbHelmet", lbHelmet);
         anim.SetBool("lbIdleHelmet", lbIdleHelmet);
+        anim.SetBool("lbMelt", lbMelt);
 
         pos = this.gameObject.transform.position;
 
@@ -82,7 +91,12 @@ public class BruteMovement : MonoBehaviour
             HandleAiming();
             HandleShooting();
             HandleHelmet();
+            
         }
+
+     
+
+
 
     }
 
@@ -111,6 +125,18 @@ public class BruteMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Barrel")
+        {
+            lbMelt = true;
+            Debug.Log("HEHHEE");
+        }
+
+
+        if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
+        {
+            Healthbar2.TakeDamage(1);
+        }
+
         if (collision.gameObject.tag == "Player")
         {
             isEnemy = true;
@@ -134,14 +160,19 @@ public class BruteMovement : MonoBehaviour
 
     void HandleAiming()
     {
+
         Vector3 mouse = Input.mousePosition;
 
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
+
         angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         gun.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+
+
 
         Vector3 localScale = Vector3.one;
 
@@ -175,6 +206,7 @@ public class BruteMovement : MonoBehaviour
         {
             lbHelmet = true;
             lbIdleHelmet = true;
+            Invoke("TakeOffHelmet", 5);
         }
     }
 
@@ -183,4 +215,10 @@ public class BruteMovement : MonoBehaviour
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
 
+   void TakeOffHelmet()
+    {
+        lbHelmet = false;
+    }
+
+  
 }

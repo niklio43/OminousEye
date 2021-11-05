@@ -130,23 +130,22 @@ public class BruteMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
-            if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
-            {
-                if (Mathf.Abs(this.gameObject.transform.position.y - collision.gameObject.transform.position.y) <= 1)
-                {
-                    if (Mathf.Abs(this.gameObject.transform.position.z - collision.gameObject.transform.position.z) <= 1)
-                    {
+            //if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
+            //{
+            //    if (Mathf.Abs(this.gameObject.transform.position.y - collision.gameObject.transform.position.y) <= 1)
+            //    {
+            //        if (Mathf.Abs(this.gameObject.transform.position.z - collision.gameObject.transform.position.z) <= 1)
+            //        {
                         Healthbar2.TakeDamage(1);
                         if (Healthbar2.TakeDamage(1) == 0)
                         {
-                            lbExplode = true;
+                            anim.SetBool("lbExplode", true);
                             isEnemy = false;
-                            Invoke("instantiate", 2);
                             Destroy(this.gameObject, 2);
                         }
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
         }
 
         if (collision.gameObject.tag == "EnemyBullet" && this.gameObject.tag == "Possessed")

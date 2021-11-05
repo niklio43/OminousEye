@@ -31,6 +31,7 @@ public class BruteMovement : MonoBehaviour
     public Transform firePoint;
     private HealthBarOnEnemy Healthbar2;
 
+    public bool Indestructible;
     private int healthHolder;
 
     void Start()
@@ -46,6 +47,7 @@ public class BruteMovement : MonoBehaviour
         isEnemy = false;
         isJumping = false;
         lbMelt = false;
+        Indestructible = false;
 
         bulletSpeed = 30f;
         moveSpeed = 1.5f;
@@ -100,9 +102,9 @@ public class BruteMovement : MonoBehaviour
             {
                 body.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse);
             }
-            if (!isJumping && isEnemy)
+            if (!isJumping && isEnemy && Input.GetKey(KeyCode.Space))
             {
-                body.AddForce(new Vector2(0f, moveVertical * jumpForce), ForceMode2D.Impulse);
+                body.AddForce(new Vector2(0f, 1 * jumpForce), ForceMode2D.Impulse);
                 FindObjectOfType<AudioManager>().Play("Jump");
             }
             if (moveHorizontal > 0)
@@ -118,9 +120,11 @@ public class BruteMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Barrel")
+        if (collision.gameObject.tag == "Barrel" && !Indestructible)
         {
             lbMelt = true;
+            Invoke("instantiate", 2);
+            Destroy(this.gameObject, 2);
         }
 
 
@@ -229,6 +233,7 @@ public class BruteMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
+            Indestructible = true;
             lbHelmet = true;
             lbIdleHelmet = true;
             Invoke("TakeOffHelmet", 5);
@@ -238,6 +243,7 @@ public class BruteMovement : MonoBehaviour
     void TakeOffHelmet()
     {
         lbHelmet = false;
+        Indestructible = false;
     }
 
 

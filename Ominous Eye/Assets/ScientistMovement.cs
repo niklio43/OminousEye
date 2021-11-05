@@ -54,7 +54,7 @@ public class ScientistMovement : MonoBehaviour
     void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
-        moveVertical = Input.GetAxisRaw("Vertical");
+        
 
         lbMovement = moveHorizontal != 0;
         lbJump = moveVertical != 0;
@@ -89,9 +89,9 @@ public class ScientistMovement : MonoBehaviour
             {
                 body.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse);
             }
-            if (!isJumping && isEnemy)
+            if (!isJumping && isEnemy && Input.GetKey(KeyCode.Space))
             {
-                body.AddForce(new Vector2(0f, moveVertical * jumpForce), ForceMode2D.Impulse);
+                body.AddForce(new Vector2(0f, 1 * jumpForce), ForceMode2D.Impulse);
                 FindObjectOfType<AudioManager>().Play("Jump");
             }
             if (moveHorizontal > 0)
@@ -149,7 +149,7 @@ public class ScientistMovement : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag != "Possessed") //fixx this, || Possessed funkar ej, lösning finns i Bruten. 
+        if (collision.gameObject.tag == "Player") //fixx this, || Possessed funkar ej, lösning finns i Bruten. 
         {
             isEnemy = true;
             this.gameObject.GetComponent<ScientistMovement>().enabled = true;
@@ -174,7 +174,7 @@ public class ScientistMovement : MonoBehaviour
 
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 

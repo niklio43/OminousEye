@@ -90,9 +90,9 @@ public class LongLegsMovement : MonoBehaviour
             {
                 body.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse);
             }
-            if (!isJumping && isEnemy)
+            if (!isJumping && isEnemy && Input.GetKey(KeyCode.Space))
             {
-                body.AddForce(new Vector2(0f, moveVertical * jumpForce), ForceMode2D.Impulse);
+                body.AddForce(new Vector2(0f, 1 * jumpForce), ForceMode2D.Impulse);
             }
             if (moveHorizontal > 0)
             {

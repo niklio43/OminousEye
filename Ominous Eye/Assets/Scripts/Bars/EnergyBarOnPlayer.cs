@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnergyBarOnPlayer : MonoBehaviour
 {
@@ -37,6 +38,12 @@ public class EnergyBarOnPlayer : MonoBehaviour
             timeElapsed -= timeSpeed * Time.deltaTime;
             currentEnergy = (int)timeElapsed;
             energyBar.SetEnergy(currentEnergy);
+                
+            }
+
+            else
+            {
+                SceneManager.LoadScene("Level1");
             }
         }
 

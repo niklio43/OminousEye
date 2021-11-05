@@ -149,7 +149,7 @@ public class ScientistMovement : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag == "Player") //fixx this, || Possessed funkar ej, lösning finns i Bruten. 
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag != "Possessed") //fixx this, || Possessed funkar ej, lösning finns i Bruten. 
         {
             isEnemy = true;
             this.gameObject.GetComponent<ScientistMovement>().enabled = true;

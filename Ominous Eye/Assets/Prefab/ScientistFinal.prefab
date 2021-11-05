@@ -314,14 +314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a26f21cf5296944486f3c333289735d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnemy: 0
   PlayerPrefab: {fileID: 3416153601329029505, guid: 3419f1273e763cc4f99400e6986d276e, type: 3}
   gun: {fileID: 8249605895615980173}
   bullet: {fileID: 3199275708363183815, guid: be900c7d6f07a634d8383d6d8ae2064d, type: 3}
-  bulletSpeed: 10
   firePoint: {fileID: 8249605896079456655}
-  angle: 0
-  Healthbar2: {fileID: 0}
 --- !u!114 &8249605897411122296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,9 +345,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a600fce887ffce643b9e066948a6e8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  lineOfSight: 8
-  shootingRange: 4
+  parent: {fileID: 8405665328251747238}
+  gun: {fileID: 8249605895615980173}
+  bullet: {fileID: 7443480093204199823, guid: 969ed4627ea0e1b49b9ce566a2f447ce, type: 3}
+  bulletSpeed: 10
+  firePoint: {fileID: 8249605896079456655}
 --- !u!1001 &7014723451415371940
 PrefabInstance:
   m_ObjectHideFlags: 0

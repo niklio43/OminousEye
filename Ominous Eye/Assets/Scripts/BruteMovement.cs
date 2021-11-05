@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-public class ScientistMovement : MonoBehaviour
+public class BruteMovement : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D body;
@@ -10,6 +10,9 @@ public class ScientistMovement : MonoBehaviour
     private bool lbMovement;
     private bool lbJump;
     private bool lbExplode;
+    private bool lbHelmet;
+    private bool lbIdleHelmet;
+    private bool lbMelt;
 
     private float jumpForce;
     private float moveSpeed;
@@ -38,17 +41,21 @@ public class ScientistMovement : MonoBehaviour
         lbExplode = false;
         lbMovement = false;
         lbJump = false;
+        lbHelmet = false;
+        lbIdleHelmet = false;
         isEnemy = false;
         isJumping = false;
+        lbMelt = false;
 
-        bulletSpeed = 50f;
-        moveSpeed = 3f;
-        jumpForce = 40f;
+        bulletSpeed = 30f;
+        moveSpeed = 1.5f;
+        jumpForce = 20f;
 
-        this.gameObject.GetComponent<ScientistMovement>().enabled = false;
+        this.gameObject.GetComponent<BruteMovement>().enabled = false;
         Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
+
     }
 
     void Update()
@@ -62,6 +69,9 @@ public class ScientistMovement : MonoBehaviour
         anim.SetBool("lbMovement", lbMovement);
         anim.SetBool("lbJump", lbJump);
         anim.SetBool("lbExplode", lbExplode);
+        anim.SetBool("lbHelmet", lbHelmet);
+        anim.SetBool("lbIdleHelmet", lbIdleHelmet);
+        anim.SetBool("lbMelt", lbMelt);
 
         pos = this.gameObject.transform.position;
 
@@ -78,12 +88,13 @@ public class ScientistMovement : MonoBehaviour
         {
             HandleAiming();
             HandleShooting();
+            HandleHelmet();
         }
     }
 
     private void FixedUpdate()
     {
-        if (!lbExplode)
+        if (!lbExplode && isEnemy)
         {
             if (moveHorizontal > 0f || moveHorizontal < 0f)
             {
@@ -107,6 +118,12 @@ public class ScientistMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Barrel")
+        {
+            lbMelt = true;
+        }
+
+
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
             if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
@@ -130,29 +147,20 @@ public class ScientistMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "EnemyBullet" && this.gameObject.tag == "Possessed")
         {
-            if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
+            Healthbar2.TakeDamage(1);
+            if (Healthbar2.TakeDamage(1) == 0)
             {
-                if (Mathf.Abs(this.gameObject.transform.position.y - collision.gameObject.transform.position.y) <= 1)
-                {
-                    if (Mathf.Abs(this.gameObject.transform.position.z - collision.gameObject.transform.position.z) <= 1)
-                    {
-                        Healthbar2.TakeDamage(1);
-                        if (Healthbar2.TakeDamage(1) == 0)
-                        {
-                            lbExplode = true;
-                            isEnemy = false;
-                            Invoke("instantiate", 2);
-                            Destroy(this.gameObject, 2);
-                        }
-                    }
-                }
+                lbExplode = true;
+                isEnemy = false;
+                Invoke("instantiate", 2);
+                Destroy(this.gameObject, 2);
             }
         }
 
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag != "Possessed") //fixx this, || Possessed funkar ej, lösning finns i Bruten. 
+        if (collision.gameObject.tag == "Player" && this.gameObject.tag == "Possessed")
         {
             isEnemy = true;
-            this.gameObject.GetComponent<ScientistMovement>().enabled = true;
+            this.gameObject.GetComponent<BruteMovement>().enabled = true;
         }
 
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Enemy")
@@ -163,6 +171,7 @@ public class ScientistMovement : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
+
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Enemy")
         {
             isJumping = true;
@@ -174,7 +183,7 @@ public class ScientistMovement : MonoBehaviour
 
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
@@ -215,5 +224,21 @@ public class ScientistMovement : MonoBehaviour
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
+
+    void HandleHelmet()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            lbHelmet = true;
+            lbIdleHelmet = true;
+            Invoke("TakeOffHelmet", 5);
+        }
+    }
+
+    void TakeOffHelmet()
+    {
+        lbHelmet = false;
+    }
+
 
 }

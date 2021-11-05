@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-public class BruteMovement : MonoBehaviour
+public class ScientistMovement : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D body;
@@ -10,8 +10,6 @@ public class BruteMovement : MonoBehaviour
     private bool lbMovement;
     private bool lbJump;
     private bool lbExplode;
-    private bool lbHelmet;
-    private bool lbIdleHelmet;
     private bool lbMelt;
 
     private float jumpForce;
@@ -41,17 +39,15 @@ public class BruteMovement : MonoBehaviour
         lbExplode = false;
         lbMovement = false;
         lbJump = false;
-        lbHelmet = false;
-        lbIdleHelmet = false;
         isEnemy = false;
         isJumping = false;
         lbMelt = false;
 
         bulletSpeed = 30f;
         moveSpeed = 1.5f;
-        jumpForce = 20f;
+        jumpForce = 30f;
 
-        this.gameObject.GetComponent<BruteMovement>().enabled = false;
+        this.gameObject.GetComponent<ScientistMovement>().enabled = false;
         Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
 
         pos = transform.position;
@@ -69,8 +65,6 @@ public class BruteMovement : MonoBehaviour
         anim.SetBool("lbMovement", lbMovement);
         anim.SetBool("lbJump", lbJump);
         anim.SetBool("lbExplode", lbExplode);
-        anim.SetBool("lbHelmet", lbHelmet);
-        anim.SetBool("lbIdleHelmet", lbIdleHelmet);
         anim.SetBool("lbMelt", lbMelt);
 
         pos = this.gameObject.transform.position;
@@ -88,7 +82,7 @@ public class BruteMovement : MonoBehaviour
         {
             HandleAiming();
             HandleShooting();
-            HandleHelmet();
+            
         }
     }
 
@@ -126,23 +120,15 @@ public class BruteMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
-            if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
-            {
-                if (Mathf.Abs(this.gameObject.transform.position.y - collision.gameObject.transform.position.y) <= 1)
-                {
-                    if (Mathf.Abs(this.gameObject.transform.position.z - collision.gameObject.transform.position.z) <= 1)
-                    {
+            
                         Healthbar2.TakeDamage(1);
                         if (Healthbar2.TakeDamage(1) == 0)
                         {
                             lbExplode = true;
                             isEnemy = false;
-                            Invoke("instantiate", 2);
                             Destroy(this.gameObject, 2);
                         }
-                    }
-                }
-            }
+            
         }
 
         if (collision.gameObject.tag == "EnemyBullet" && this.gameObject.tag == "Possessed")
@@ -160,7 +146,7 @@ public class BruteMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player" && this.gameObject.tag == "Possessed")
         {
             isEnemy = true;
-            this.gameObject.GetComponent<BruteMovement>().enabled = true;
+            this.gameObject.GetComponent<ScientistMovement>().enabled = true;
         }
 
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Enemy")
@@ -183,7 +169,7 @@ public class BruteMovement : MonoBehaviour
 
         Vector3 mouse = Input.mousePosition;
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(gun.transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
 
         Vector2 offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
 
@@ -223,21 +209,6 @@ public class BruteMovement : MonoBehaviour
     void instantiate()
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
-    }
-
-    void HandleHelmet()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            lbHelmet = true;
-            lbIdleHelmet = true;
-            Invoke("TakeOffHelmet", 5);
-        }
-    }
-
-    void TakeOffHelmet()
-    {
-        lbHelmet = false;
     }
 
 

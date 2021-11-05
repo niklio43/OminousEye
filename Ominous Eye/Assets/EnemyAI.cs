@@ -8,12 +8,12 @@ public class EnemyAI : MonoBehaviour
     private bool inFireRange;
     private Vector3 targetPos;
 
-    public GameObject possessed;
+    private GameObject possessed;
     public GameObject gun;
     public GameObject bullet;
     public float bulletSpeed = 10f;
     public Transform firePoint;
-    public float angle;
+    private float angle;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if(possessed == null)
+        if (possessed == null)
         {
             possessed = GameObject.FindGameObjectWithTag("Possessed");
         }
@@ -85,11 +85,11 @@ public class EnemyAI : MonoBehaviour
 
     void HandleShooting()
     {
-            GameObject bulletClone = Instantiate(bullet);
-            bulletClone.transform.position = firePoint.position;
-            bulletClone.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        GameObject bulletClone = Instantiate(bullet);
+        bulletClone.transform.position = firePoint.position;
+        bulletClone.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-            bulletClone.GetComponent<Rigidbody2D>().velocity = firePoint.right * bulletSpeed;
+        bulletClone.GetComponent<Rigidbody2D>().velocity = firePoint.right * bulletSpeed;
     }
 
 }

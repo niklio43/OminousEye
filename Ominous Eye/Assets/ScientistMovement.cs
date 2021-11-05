@@ -14,7 +14,7 @@ public class ScientistMovement : MonoBehaviour
     private bool lbJump;
     private bool lbExplode;
     private bool lbMelt;
-    
+
 
     private float jumpForce;
     private float moveSpeed;
@@ -32,10 +32,6 @@ public class ScientistMovement : MonoBehaviour
     public float angle;
     public HealthBarOnEnemy Healthbar2;
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -53,7 +49,7 @@ public class ScientistMovement : MonoBehaviour
 
         this.gameObject.GetComponent<ScientistMovement>().enabled = false;
         Healthbar2 = gameObject.GetComponent<HealthBarOnEnemy>();
-        
+
         pos = transform.position;
     }
 
@@ -75,7 +71,7 @@ public class ScientistMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !lbExplode)
         {
             lbExplode = true;
-            
+
         }
         if (lbExplode)
         {
@@ -89,8 +85,6 @@ public class ScientistMovement : MonoBehaviour
             HandleAiming();
             HandleShooting();
         }
-        
-        
 
     }
 
@@ -138,9 +132,9 @@ public class ScientistMovement : MonoBehaviour
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed" && this.gameObject.tag != "Scientist")
         {
             Healthbar2.TakeDamage(1);
-            if(Healthbar2.TakeDamage(1) == 0)
+            if (Healthbar2.TakeDamage(1) == 0)
             {
-                
+
                 anim.SetBool("lbExplode", true);
                 Destroy(this.gameObject, 2);
             }
@@ -200,7 +194,7 @@ public class ScientistMovement : MonoBehaviour
 
     void HandleShooting()
     {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             GameObject bulletClone = Instantiate(bullet);
             bulletClone.transform.position = firePoint.position;
@@ -214,6 +208,6 @@ public class ScientistMovement : MonoBehaviour
     {
         Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
-    
-    
+
+
 }

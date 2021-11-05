@@ -14,8 +14,6 @@ public class HealthBarOnEnemy : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-
-
     }
 
 
@@ -31,4 +29,3 @@ public class HealthBarOnEnemy : MonoBehaviour
     }
 
 }
-

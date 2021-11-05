@@ -5,13 +5,11 @@ public class BruteMovement : MonoBehaviour
     Animator anim;
     Rigidbody2D body;
 
-    float horizontal;
-    float vertical;
-
     private bool isJumping;
-    public bool isEnemy;
+    private bool isEnemy;
     private bool lbMovement;
     private bool lbJump;
+    private bool lbExplode;
     private bool lbHelmet;
     private bool lbIdleHelmet;
     private bool lbMelt;
@@ -20,22 +18,20 @@ public class BruteMovement : MonoBehaviour
     private float moveSpeed;
     private float moveHorizontal;
     private float moveVertical;
-
-    private bool lbExplode;
+    private float bulletSpeed;
+    private float angle;
 
     private Vector3 pos;
 
     public GameObject PlayerPrefab;
-
     public GameObject gun;
     public GameObject bullet;
-    public float bulletSpeed = 10f;
+
+
     public Transform firePoint;
-    private float angle;
-    public int health;
-    public HealthBarOnEnemy Healthbar2;
+    private HealthBarOnEnemy Healthbar2;
 
-
+    private int healthHolder;
 
     void Start()
     {
@@ -51,6 +47,7 @@ public class BruteMovement : MonoBehaviour
         isJumping = false;
         lbMelt = false;
 
+        bulletSpeed = 30f;
         moveSpeed = 1.5f;
         jumpForce = 20f;
 
@@ -64,7 +61,7 @@ public class BruteMovement : MonoBehaviour
     void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
-        moveVertical = vertical = Input.GetAxisRaw("Vertical");
+        moveVertical = Input.GetAxisRaw("Vertical");
 
         lbMovement = moveHorizontal != 0;
         lbJump = moveVertical != 0;
@@ -82,6 +79,7 @@ public class BruteMovement : MonoBehaviour
         {
             lbExplode = true;
             isEnemy = false;
+            FindObjectOfType<AudioManager>().Play("PlayerLeavePossession");
             Invoke("instantiate", 2);
             Destroy(this.gameObject, 2);
         }
@@ -91,18 +89,12 @@ public class BruteMovement : MonoBehaviour
             HandleAiming();
             HandleShooting();
             HandleHelmet();
-
         }
-
-
-
-
-
     }
 
     private void FixedUpdate()
     {
-        if (!lbExplode)
+        if (!lbExplode && isEnemy)
         {
             if (moveHorizontal > 0f || moveHorizontal < 0f)
             {
@@ -111,6 +103,7 @@ public class BruteMovement : MonoBehaviour
             if (!isJumping && isEnemy)
             {
                 body.AddForce(new Vector2(0f, moveVertical * jumpForce), ForceMode2D.Impulse);
+                FindObjectOfType<AudioManager>().Play("Jump");
             }
             if (moveHorizontal > 0)
             {
@@ -128,16 +121,43 @@ public class BruteMovement : MonoBehaviour
         if (collision.gameObject.tag == "Barrel")
         {
             lbMelt = true;
-            Debug.Log("HEHHEE");
         }
 
 
         if (collision.gameObject.tag == "Bullet" && this.gameObject.tag != "Possessed")
         {
-            Healthbar2.TakeDamage(1);
+            if (Mathf.Abs(this.gameObject.transform.position.x - collision.gameObject.transform.position.x) <= 1)
+            {
+                if (Mathf.Abs(this.gameObject.transform.position.y - collision.gameObject.transform.position.y) <= 1)
+                {
+                    if (Mathf.Abs(this.gameObject.transform.position.z - collision.gameObject.transform.position.z) <= 1)
+                    {
+                        Healthbar2.TakeDamage(1);
+                        if (Healthbar2.TakeDamage(1) == 0)
+                        {
+                            lbExplode = true;
+                            isEnemy = false;
+                            Invoke("instantiate", 2);
+                            Destroy(this.gameObject, 2);
+                        }
+                    }
+                }
+            }
         }
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "EnemyBullet" && this.gameObject.tag == "Possessed")
+        {
+            Healthbar2.TakeDamage(1);
+            if (Healthbar2.TakeDamage(1) == 0)
+            {
+                lbExplode = true;
+                isEnemy = false;
+                Invoke("instantiate", 2);
+                Destroy(this.gameObject, 2);
+            }
+        }
+
+        if (collision.gameObject.tag == "Player" && this.gameObject.tag == "Possessed")
         {
             isEnemy = true;
             this.gameObject.GetComponent<BruteMovement>().enabled = true;
@@ -200,6 +220,11 @@ public class BruteMovement : MonoBehaviour
         }
     }
 
+    void instantiate()
+    {
+        Instantiate(PlayerPrefab, pos, Quaternion.identity);
+    }
+
     void HandleHelmet()
     {
         if (Input.GetKeyDown(KeyCode.H))
@@ -208,11 +233,6 @@ public class BruteMovement : MonoBehaviour
             lbIdleHelmet = true;
             Invoke("TakeOffHelmet", 5);
         }
-    }
-
-    void instantiate()
-    {
-        Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
 
     void TakeOffHelmet()

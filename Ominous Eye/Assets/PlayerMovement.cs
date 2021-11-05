@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+            body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

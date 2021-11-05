@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour
     private bool inFireRange;
     private Vector3 targetPos;
 
+    public GameObject parent;
     private GameObject possessed;
     public GameObject gun;
     public GameObject bullet;
@@ -23,14 +24,19 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if(parent.tag == "Possessed")
+        {
+            this.gameObject.GetComponent<EnemyAI>().enabled = false;
+        }
         if (possessed == null)
         {
             possessed = GameObject.FindGameObjectWithTag("Possessed");
         }
         if (inFireRange)
         {
-            if (this.gameObject.tag == "Enemy")
+            if (parent.tag == "Enemy" && possessed)
             {
+                this.gameObject.GetComponent<EnemyAI>().enabled = true;
                 targetPos = possessed.transform.position;
                 HandleAiming();
                 HandleShooting();
@@ -57,7 +63,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vector3 playerPos = Camera.main.WorldToScreenPoint(targetPos);
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(parent.transform.localPosition);
 
         Vector2 offset = new Vector2(playerPos.x - screenPoint.x, playerPos.y - screenPoint.y);
 
@@ -77,10 +83,6 @@ public class EnemyAI : MonoBehaviour
         }
 
         gun.transform.localScale = localScale;
-
-
-        Debug.Log("Target Pos: " + screenPoint);
-        Debug.Log("Mouse Pos: " + Input.mousePosition);
     }
 
     void HandleShooting()

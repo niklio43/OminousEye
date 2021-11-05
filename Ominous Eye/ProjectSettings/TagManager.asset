@@ -13,6 +13,8 @@ TagManager:
   - Scientist
   - PlayerScientist
   - Card
+  - EnemyBullet
+  - inFireRange
   layers:
   - Default
   - TransparentFX

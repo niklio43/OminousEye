@@ -83,7 +83,7 @@ public class ScientistMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isEnemy && !lbExplode)
+        if (!lbExplode)
         {
             if (moveHorizontal > 0f || moveHorizontal < 0f)
             {
@@ -151,11 +151,8 @@ public class ScientistMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
+            isEnemy = true;
             this.gameObject.GetComponent<ScientistMovement>().enabled = true;
-            if(GameObject.FindGameObjectWithTag("Player") == null)
-            {
-                isEnemy = true;
-            }
         }
 
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Enemy")

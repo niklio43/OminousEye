@@ -36794,6 +36794,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.53838927
       objectReference: {fileID: 0}
+    - target: {fileID: 5359962824450531577, guid: 349846b734009d34085dca4123a5e14a, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5359962824450531581, guid: 349846b734009d34085dca4123a5e14a, type: 3}
       propertyPath: m_Name
       value: PontusEnemyBrute (1)
@@ -36966,6 +36970,10 @@ PrefabInstance:
     - target: {fileID: 3198509784254332984, guid: a8f6e0459c46d0e49905d5ff3f0203f5, type: 3}
       propertyPath: m_Interpolate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198509784254332984, guid: a8f6e0459c46d0e49905d5ff3f0203f5, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3198509784254332984, guid: a8f6e0459c46d0e49905d5ff3f0203f5, type: 3}
       propertyPath: m_CollisionDetection

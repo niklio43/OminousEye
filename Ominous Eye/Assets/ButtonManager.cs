@@ -13,7 +13,7 @@ public class ButtonManager : MonoBehaviour
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        Debug.Log("HEHEHEH");
+        Debug.Log("HEHEHEH HIHI HOHO");
 #else
         Application.Quit ();
 #endif
@@ -21,7 +21,7 @@ public class ButtonManager : MonoBehaviour
 
     public void NextScene()
     {
-        SceneManager.LoadScene("characterAdded");
+        SceneManager.LoadScene("Level1");
     }
 
 

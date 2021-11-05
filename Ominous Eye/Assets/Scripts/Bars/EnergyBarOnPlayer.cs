@@ -10,6 +10,8 @@ public class EnergyBarOnPlayer : MonoBehaviour
 
     public EnergyBar energyBar;
 
+    [SerializeField] private string loadSceneString;
+
     //Counter
     //public float startNumber = 100f;        // Starting number for energy
     //public float countSeconds = 3f;        // Time needed for counting
@@ -43,7 +45,7 @@ public class EnergyBarOnPlayer : MonoBehaviour
 
             else
             {
-                SceneManager.LoadScene("Level1");
+                SceneManager.LoadScene(loadSceneString);
             }
         }
 

@@ -43537,11 +43537,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5359962824450531573, guid: 349846b734009d34085dca4123a5e14a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -108.65
+      value: -59.12
       objectReference: {fileID: 0}
     - target: {fileID: 5359962824450531573, guid: 349846b734009d34085dca4123a5e14a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.12
+      value: 0.57
       objectReference: {fileID: 0}
     - target: {fileID: 5359962824450531573, guid: 349846b734009d34085dca4123a5e14a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -44205,11 +44205,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3416153601329029509, guid: 3419f1273e763cc4f99400e6986d276e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.2
+      value: -62.53
       objectReference: {fileID: 0}
     - target: {fileID: 3416153601329029509, guid: 3419f1273e763cc4f99400e6986d276e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.78
+      value: 3.37
       objectReference: {fileID: 0}
     - target: {fileID: 3416153601329029509, guid: 3419f1273e763cc4f99400e6986d276e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -73597,6 +73597,7 @@ MonoBehaviour:
   maxEnergy: 100
   currentEnergy: 0
   energyBar: {fileID: 607728448}
+  loadSceneString: Level2
 --- !u!1001 &1665758005
 PrefabInstance:
   m_ObjectHideFlags: 0

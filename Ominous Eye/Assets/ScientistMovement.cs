@@ -161,11 +161,17 @@ public class ScientistMovement : MonoBehaviour
             isJumping = false;
         }
 
-        if (collision.gameObject.tag == "Barrel")
+        if (collision.gameObject.tag == "Barrel" && isEnemy)
         {
             lbMelt = true;
             isEnemy = false;
             Invoke("instantiate", 2);
+            Destroy(this.gameObject, 2);
+        }
+
+        if (collision.gameObject.tag == "Barrel")
+        {
+            anim.SetBool("lbMelt", true);
             Destroy(this.gameObject, 2);
         }
 

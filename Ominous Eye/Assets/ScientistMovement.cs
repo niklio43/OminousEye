@@ -9,6 +9,7 @@ public class ScientistMovement : MonoBehaviour
     private bool isEnemy;
     private bool lbMovement;
     private bool lbJump;
+    private bool lbMelt;
     private bool lbExplode;
 
     private float jumpForce;
@@ -40,6 +41,7 @@ public class ScientistMovement : MonoBehaviour
         lbJump = false;
         isEnemy = false;
         isJumping = false;
+        lbMelt = false;
 
         bulletSpeed = 50f;
         moveSpeed = 3f;
@@ -62,6 +64,7 @@ public class ScientistMovement : MonoBehaviour
         anim.SetBool("lbMovement", lbMovement);
         anim.SetBool("lbJump", lbJump);
         anim.SetBool("lbExplode", lbExplode);
+        anim.SetBool("lbMelt", lbMelt);
 
         pos = this.gameObject.transform.position;
 
@@ -118,9 +121,7 @@ public class ScientistMovement : MonoBehaviour
                         Healthbar2.TakeDamage(1);
                         if (Healthbar2.TakeDamage(1) == 0)
                         {
-                            lbExplode = true;
-                            isEnemy = false;
-                            Invoke("instantiate", 2);
+                            anim.SetBool("lbExplode", true);
                             Destroy(this.gameObject, 2);
                         }
                     }
@@ -139,7 +140,7 @@ public class ScientistMovement : MonoBehaviour
                         Healthbar2.TakeDamage(1);
                         if (Healthbar2.TakeDamage(1) == 0)
                         {
-                            lbExplode = true;
+                            anim.SetBool("lbExplode", true);
                             isEnemy = false;
                             Invoke("instantiate", 2);
                             Destroy(this.gameObject, 2);
@@ -159,6 +160,16 @@ public class ScientistMovement : MonoBehaviour
         {
             isJumping = false;
         }
+
+        if (collision.gameObject.tag == "Barrel")
+        {
+            lbMelt = true;
+            isEnemy = false;
+            Invoke("instantiate", 2);
+            Destroy(this.gameObject, 2);
+        }
+
+
     }
 
     void OnTriggerExit2D(Collider2D collision)

@@ -47073,6 +47073,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scientist
       objectReference: {fileID: 0}
+    - target: {fileID: 4813348616516799162, guid: 46803711d363701459cfe10a32be9990, type: 3}
+      propertyPath: m_Size.x
+      value: 0.50828934
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813348616516799162, guid: 46803711d363701459cfe10a32be9990, type: 3}
+      propertyPath: m_Size.y
+      value: 0.25428665
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813348616516799162, guid: 46803711d363701459cfe10a32be9990, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0730381
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813348616516799162, guid: 46803711d363701459cfe10a32be9990, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.7071958
+      objectReference: {fileID: 0}
     - target: {fileID: 5017399170940021959, guid: 46803711d363701459cfe10a32be9990, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

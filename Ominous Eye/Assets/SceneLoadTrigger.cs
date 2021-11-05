@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadTrigger : MonoBehaviour
 {
+    [SerializeField] private string restartString;
     [SerializeField] private string loadSceneString;
 
 
@@ -19,7 +20,7 @@ public class SceneLoadTrigger : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.R))
         {
-            SceneManager.LoadScene("Level1");
+            SceneManager.LoadScene(restartString);
         }
     }
 
